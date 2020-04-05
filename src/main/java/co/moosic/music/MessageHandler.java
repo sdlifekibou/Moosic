@@ -16,15 +16,29 @@ public class MessageHandler extends ListenerAdapter {
         if (e.getMessage().getContentRaw().toLowerCase().startsWith(Config.command_prefix.toLowerCase() + "np")) {
             AudioTrack PlayingTrack = Login.scheduler.player.getPlayingTrack();
             e.getChannel().sendMessage(new EmbedBuilder()
-                    .setAuthor("Now Playing", PlayingTrack.getInfo().uri, null)
+                    .setAuthor("부르는 노래", PlayingTrack.getInfo().uri, null)
                     .setColor(Color.GREEN)
-                    .addField("Song Name", PlayingTrack.getInfo().title, true)
-                    .addField("Channel", PlayingTrack.getInfo().author, true)
-                    .addField("Song Progress", String.format("`%s / %s`", this.getLength(PlayingTrack.getPosition()), this.getLength(PlayingTrack.getInfo().length)), true)
-                    .addField("Song Link", "[Youtube Link](" + PlayingTrack.getInfo().uri + ")", true)
+                    .addField("노래 이름", PlayingTrack.getInfo().title, true)
+                    .addField("채널", PlayingTrack.getInfo().author, true)
+                    .addField("노래 진행도", String.format("`%s / %s`", this.getLength(PlayingTrack.getPosition()), this.getLength(PlayingTrack.getInfo().length)), true)
+                    .addField("노래 링크", "[유튜브 링크](" + PlayingTrack.getInfo().uri + ")", true)
                     .setThumbnail(String.format("https://img.youtube.com/vi/%s/hqdefault.jpg", PlayingTrack.getInfo().identifier))
                     .build()
             ).queue();
+        }
+        if (e.getMessage().getContentRaw().toLowerCase().startsWith(Config.command_prefix.toLowerCase() + "skip")) {
+          nextTrack();
+          AudioTrack PlayingTrack = Login.scheduler.player.getPlayingTrack();
+          e.getChannel().sendMessage(new EmbedBuilder()
+                    .setAuthor("새롭게 부르는 노래", PlayingTrack.getInfo().uri, null)
+                    .setColor(Color.GREEN)
+                    .addField("노래 이름", PlayingTrack.getInfo().title, true)
+                    .addField("채널", PlayingTrack.getInfo().author, true)
+                    .addField("노래 길이", String.format("`%s / %s`", this.getLength(PlayingTrack.getPosition()), this.getLength(PlayingTrack.getInfo().length)), true)
+                    .addField("노래 링크", "[유튜브 링크](" + PlayingTrack.getInfo().uri + ")", true)
+                    .setThumbnail(String.format("https://img.youtube.com/vi/%s/hqdefault.jpg", PlayingTrack.getInfo().identifier))
+                    .build()
+          ).queue();
         }
     }
 
